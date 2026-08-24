@@ -3,1233 +3,486 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LeBron James — The King | Official Fan Page</title>
-  <meta name="description" content="The ultimate fan page for LeBron James — 4× NBA Champion, All-Time Scoring Leader, and basketball's greatest ever. Explore his career, legacy, and impact." />
-  <meta name="keywords" content="LeBron James, Lakers, NBA, King James, basketball, fan page" />
+  <title>LeBron James — Fan Page</title>
 
   <style>
-    /* ─── Design Tokens ──────────────────────────────────────────────────── */
+    /* =========================================================
+       1. COLOR VARIABLES (Lakers Theme + Dark/Light Mode)
+       ========================================================= */
     :root {
-      --gold:        #FDB927;
-      --gold-light:  #FFD77F;
-      --gold-dim:    #B8860B;
-      --purple:      #552583;
-      --purple-light:#7B3FC4;
-      --purple-dim:  #2C1060;
-
-      /* Dark theme (default) */
-      --bg:          #0D0A14;
-      --bg-card:     #18122B;
-      --bg-card2:    #1F1735;
-      --text:        #F0EAF8;
-      --text-muted:  #A090BB;
-      --border:      rgba(85,37,131,0.45);
-      --shadow:      0 8px 40px rgba(0,0,0,0.7);
-      --hero-overlay: linear-gradient(135deg,rgba(13,10,20,0.92) 0%,rgba(85,37,131,0.6) 100%);
-      --nav-bg:      rgba(13,10,20,0.85);
+      --purple: #552583;
+      --gold: #FDB927;
+      
+      /* Dark mode colors (default) */
+      --bg: #121212;
+      --card-bg: #1e1e2f;
+      --text: #ffffff;
+      --text-muted: #b3b3b3;
+      --border: #332d4a;
     }
 
     [data-theme="light"] {
-      --bg:          #F4F0FA;
-      --bg-card:     #FFFFFF;
-      --bg-card2:    #F0E8FF;
-      --text:        #1A0A3C;
-      --text-muted:  #6045A0;
-      --border:      rgba(85,37,131,0.2);
-      --shadow:      0 8px 40px rgba(85,37,131,0.15);
-      --hero-overlay: linear-gradient(135deg,rgba(85,37,131,0.88) 0%,rgba(253,185,39,0.55) 100%);
-      --nav-bg:      rgba(244,240,250,0.9);
+      /* Light mode colors */
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #555555;
+      --border: #e0e0e0;
     }
 
-    /* ─── Reset & Base ───────────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
+    /* =========================================================
+       2. GLOBAL RESET & BASE STYLES
+       ========================================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
+      font-family: Arial, sans-serif;
+      background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      transition: background 0.4s, color 0.4s;
-      overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
     }
 
-    /* ─── Scrollbar ──────────────────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-
-    /* ─── Animated background particles ─────────────────────────────────── */
-    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0;
-      animation: drift linear infinite;
+    /* Standard section spacing */
+    section {
+      padding: 3rem 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
-    @keyframes drift {
-      0%   { transform: translateY(110vh) scale(0); opacity: 0; }
-      10%  { opacity: 0.6; }
-      90%  { opacity: 0.4; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    h2 {
+      color: var(--gold);
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--purple);
+      padding-bottom: 0.5rem;
     }
 
-    /* ─── Navigation ─────────────────────────────────────────────────────── */
+    /* =========================================================
+       3. NAVIGATION BAR
+       ========================================================= */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--border);
+      background-color: var(--purple);
+      padding: 1rem 2rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0 2rem;
-      height: 64px;
-      transition: background 0.4s;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+    .nav-logo {
+      color: var(--gold);
+      font-weight: bold;
+      font-size: 1.2rem;
       text-decoration: none;
     }
-    .nav-crown {
-      font-size: 1.5rem;
-      filter: drop-shadow(0 0 8px var(--gold));
-      animation: pulse-crown 2s ease-in-out infinite;
-    }
-    @keyframes pulse-crown {
-      0%, 100% { filter: drop-shadow(0 0 6px var(--gold)); }
-      50%       { filter: drop-shadow(0 0 18px var(--gold)); }
-    }
-    .nav-logo-text {
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      background: linear-gradient(90deg, var(--gold), var(--purple-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.6rem;
-      list-style: none;
-    }
     .nav-links a {
+      color: #ffffff;
       text-decoration: none;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      transition: color 0.25s;
-      position: relative;
+      margin-left: 1.5rem;
+      font-weight: bold;
     }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0; right: 100%;
-      height: 2px;
-      background: var(--gold);
-      transition: right 0.3s;
-      border-radius: 2px;
+
+    .nav-links a:hover {
+      color: var(--gold);
     }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-links a:hover::after { right: 0; }
 
     #theme-toggle {
-      background: none;
-      border: 2px solid var(--gold);
-      color: var(--gold);
-      border-radius: 50px;
-      padding: 0.35rem 1rem;
+      background: var(--gold);
+      color: var(--purple);
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
       cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: background 0.3s, color 0.3s, transform 0.2s;
-    }
-    #theme-toggle:hover {
-      background: var(--gold);
-      color: var(--purple-dim);
-      transform: scale(1.05);
+      font-weight: bold;
     }
 
-    /* ─── Hero ───────────────────────────────────────────────────────────── */
+    /* =========================================================
+       4. HERO SECTION
+       ========================================================= */
     #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      padding-top: 64px;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: var(--hero-overlay);
-      z-index: 1;
-      transition: background 0.5s;
-    }
-
-    .hero-mesh {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 20% 60%, rgba(85,37,131,0.6) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 60% at 80% 30%, rgba(253,185,39,0.25) 0%, transparent 70%),
-        var(--bg);
-      animation: mesh-shift 8s ease-in-out infinite alternate;
-    }
-    @keyframes mesh-shift {
-      from { filter: hue-rotate(0deg); }
-      to   { filter: hue-rotate(15deg); }
-    }
-
-    .hero-image-wrap {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      height: 90%;
-      width: 50%;
-      z-index: 2;
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      overflow: hidden;
-    }
-
-    #lebron-hero {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      object-position: center top;
-      -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.9) 50%, transparent 100%);
-      mask-image: linear-gradient(to left, rgba(0,0,0,0.9) 50%, transparent 100%);
-      filter: saturate(1.2) contrast(1.05);
-    }
-
-    .hero-img-placeholder {
-      display: none;
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--purple-dim), var(--purple));
-      align-items: center;
-      justify-content: center;
-      font-size: 8rem;
-    }
-    #lebron-hero.error + .hero-img-placeholder { display: flex; }
-
-    .hero-content {
-      position: relative;
-      z-index: 3;
-      padding: 4rem 2rem 4rem clamp(2rem, 8vw, 8rem);
-      max-width: 600px;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(253,185,39,0.15);
-      border: 1px solid rgba(253,185,39,0.4);
-      border-radius: 50px;
-      padding: 0.3rem 1rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
-      backdrop-filter: blur(8px);
-    }
-    .badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      animation: blink 1.5s ease-in-out infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
-
-    .hero-name {
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: #fff;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.5);
-    }
-    .hero-name .king { color: var(--gold); }
-
-    .hero-sub {
-      font-size: clamp(1rem, 2.5vw, 1.4rem);
-      font-weight: 700;
-      color: var(--gold-light);
-      margin: 0.5rem 0 1.5rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .hero-milestones {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-    }
-    .milestone-chip {
-      background: rgba(85,37,131,0.55);
-      border: 1px solid rgba(253,185,39,0.35);
-      border-radius: 8px;
-      padding: 0.5rem 0.9rem;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #fff;
-      backdrop-filter: blur(8px);
-      transition: transform 0.2s, background 0.2s;
-    }
-    .milestone-chip:hover {
-      transform: translateY(-3px);
-      background: rgba(253,185,39,0.2);
-    }
-    .milestone-chip span { color: var(--gold); margin-right: 0.3rem; }
-
-    .hero-cta {
-      display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-      color: var(--purple-dim);
-      font-weight: 800;
-      font-size: 0.95rem;
-      padding: 0.85rem 2rem;
-      border-radius: 50px;
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      box-shadow: 0 6px 30px rgba(253,185,39,0.4);
-      transition: transform 0.25s, box-shadow 0.25s;
-    }
-    .hero-cta:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 12px 40px rgba(253,185,39,0.6);
+      justify-content: space-between;
+      gap: 2rem;
+      padding-top: 4rem;
     }
 
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      animation: bob 2s ease-in-out infinite;
-    }
-    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(8px);} }
-    .scroll-arrow { font-size: 1.2rem; }
-
-    /* ─── Section Shared ─────────────────────────────────────────────────── */
-    section {
-      position: relative;
-      z-index: 1;
-      padding: clamp(3rem, 6vw, 6rem) clamp(1rem, 5vw, 6rem);
+    .hero-text {
+      flex: 1 1 450px;
     }
 
-    .section-label {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+    .hero-text h1 {
+      font-size: 2.8rem;
       color: var(--gold);
-      margin-bottom: 0.6rem;
     }
 
-    h2.section-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 0.4rem;
-      line-height: 1.15;
-    }
-    h2.section-title .accent { color: var(--purple-light); }
-
-    .section-divider {
-      width: 60px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--gold), var(--purple-light));
-      border-radius: 2px;
-      margin: 1rem 0 2.5rem;
+    .hero-sub {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin: 0.5rem 0 1rem;
     }
 
-    /* ─── Bio Section ────────────────────────────────────────────────────── */
-    #bio { background: var(--bg); }
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
 
-    .bio-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .badge {
+      background-color: var(--purple);
+      color: #ffffff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .hero-image {
+      flex: 1 1 300px;
+      text-align: center;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      border: 4px solid var(--gold);
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* =========================================================
+       5. BIOGRAPHY SECTION
+       ========================================================= */
+    .bio-container {
+      display: flex;
+      flex-wrap: wrap;
       gap: 2rem;
       align-items: center;
     }
-    @media (max-width: 768px) { .bio-grid { grid-template-columns: 1fr; } }
+
+    .bio-text {
+      flex: 1 1 450px;
+    }
 
     .bio-text p {
+      margin-bottom: 1rem;
       color: var(--text-muted);
-      font-size: 1.02rem;
-      line-height: 1.8;
-      margin-bottom: 1.2rem;
     }
 
-    .bio-highlight {
-      background: linear-gradient(135deg, var(--bg-card), var(--bg-card2));
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--gold);
-      border-radius: 12px;
-      padding: 1.2rem 1.5rem;
-      margin-top: 1.5rem;
-      font-style: italic;
-      color: var(--gold-light);
-      font-size: 1.05rem;
-      box-shadow: var(--shadow);
+    .bio-image {
+      flex: 1 1 300px;
+      text-align: center;
     }
 
-    .bio-image-card {
-      position: relative;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(85,37,131,0.5);
-      aspect-ratio: 3/4;
-      background: var(--bg-card);
-    }
-    .bio-image-card img {
+    .bio-image img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      transition: transform 0.5s;
-    }
-    .bio-image-card:hover img { transform: scale(1.04); }
-    .bio-image-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(85,37,131,0.6) 0%, transparent 60%);
-    }
-    .bio-img-label {
-      position: absolute;
-      bottom: 1rem;
-      left: 1rem;
-      right: 1rem;
-      z-index: 2;
-      font-weight: 800;
-      font-size: 1rem;
-      color: var(--gold);
-      letter-spacing: 0.04em;
+      max-width: 300px;
+      border-radius: 12px;
+      border: 3px solid var(--purple);
+      display: block;
+      margin: 0 auto;
     }
 
-    /* ─── Fast Facts ─────────────────────────────────────────────────────── */
-    #facts { background: var(--bg-card); }
-
+    /* =========================================================
+       6. FAST FACTS (CSS Grid)
+       ========================================================= */
     .facts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.5rem;
     }
 
     .fact-card {
-      background: var(--bg-card2);
+      background-color: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.8rem 1.4rem;
+      border-top: 4px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.5rem;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: default;
-    }
-    .fact-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--purple), var(--gold));
-    }
-    .fact-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 20px 50px rgba(85,37,131,0.4);
-    }
-    .fact-card:nth-child(even)::before {
-      background: linear-gradient(90deg, var(--gold), var(--purple));
     }
 
-    .fact-icon {
-      font-size: 2.2rem;
-      margin-bottom: 0.8rem;
-      display: block;
+    .fact-number {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--gold);
     }
-    .fact-value {
-      font-size: 2.1rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--gold), var(--purple-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.1;
-    }
+
     .fact-label {
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      margin-top: 0.4rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    .fact-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-      opacity: 0.75;
+      margin-top: 0.3rem;
     }
 
-    /* ─── Interactive Section ────────────────────────────────────────────── */
-    #interactive { background: var(--bg); }
-
+    /* =========================================================
+       7. INTERACTIVE FEATURES (Cards & Buttons)
+       ========================================================= */
     .interactive-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
+      margin-top: 1.5rem;
     }
-    @media (max-width: 820px) { .interactive-grid { grid-template-columns: 1fr; } }
 
-    .int-card {
-      background: var(--bg-card);
+    .card {
+      background-color: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: var(--shadow);
-      transition: box-shadow 0.3s;
-    }
-    .int-card:hover { box-shadow: 0 12px 50px rgba(85,37,131,0.35); }
-
-    .int-card-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 0.4rem;
-    }
-    .int-card-sub {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1.4rem;
-    }
-
-    #quote-display {
-      background: var(--bg-card2);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--purple-light);
-      border-radius: 12px;
-      padding: 1.4rem;
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--text);
-      line-height: 1.7;
-      min-height: 100px;
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.2rem;
-      transition: opacity 0.4s;
-    }
-    #quote-display.fading { opacity: 0; }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-    }
-    .btn-gold {
-      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-      color: var(--purple-dim);
-      box-shadow: 0 4px 20px rgba(253,185,39,0.35);
-    }
-    .btn-gold:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 8px 30px rgba(253,185,39,0.55);
-    }
-    .btn-purple {
-      background: linear-gradient(135deg, var(--purple), var(--purple-light));
-      color: #fff;
-      box-shadow: 0 4px 20px rgba(85,37,131,0.35);
-    }
-    .btn-purple:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 8px 30px rgba(85,37,131,0.55);
-    }
-    .btn:active { transform: scale(0.97); }
-
-    .trivia-question {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 1.2rem;
-      line-height: 1.5;
-    }
-    .trivia-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 1.2rem;
-    }
-    @media (max-width: 480px) { .trivia-options { grid-template-columns: 1fr; } }
-
-    .trivia-opt {
-      background: var(--bg-card2);
-      border: 2px solid var(--border);
       border-radius: 10px;
-      padding: 0.75rem 1rem;
+      padding: 1.5rem;
+    }
+
+    .card h3 {
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    /* Buttons */
+    .btn {
+      background-color: var(--gold);
+      color: var(--purple);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text);
-      text-align: left;
-      transition: border-color 0.2s, background 0.2s, transform 0.15s;
-    }
-    .trivia-opt:hover:not(:disabled) {
-      border-color: var(--gold);
-      transform: translateX(4px);
-    }
-    .trivia-opt.correct {
-      border-color: #2ECC71;
-      background: rgba(46,204,113,0.15);
-      color: #2ECC71;
-    }
-    .trivia-opt.wrong {
-      border-color: #E74C3C;
-      background: rgba(231,76,60,0.12);
-      color: #E74C3C;
-    }
-    .trivia-opt:disabled { cursor: default; }
-
-    #trivia-feedback {
-      font-size: 0.9rem;
-      font-weight: 700;
-      min-height: 24px;
-      margin-bottom: 1rem;
-      transition: opacity 0.3s;
-    }
-    .feedback-correct { color: #2ECC71; }
-    .feedback-wrong   { color: #E74C3C; }
-
-    /* ─── Philanthropy Banner ─────────────────────────────────────────────── */
-    #philanthropy {
-      background: linear-gradient(135deg, var(--purple-dim) 0%, var(--purple) 60%, var(--bg-card) 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    #philanthropy::before {
-      content: '👑';
-      position: absolute;
-      right: -1rem;
-      top: -2rem;
-      font-size: 12rem;
-      opacity: 0.06;
-      pointer-events: none;
-    }
-
-    .philan-content { max-width: 800px; }
-    .philan-content p {
-      color: rgba(255,255,255,0.8);
-      font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 1.2rem;
-    }
-
-    .promise-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      background: rgba(253,185,39,0.12);
-      border: 1px solid rgba(253,185,39,0.5);
-      border-radius: 12px;
-      padding: 1rem 1.5rem;
       margin-top: 1rem;
     }
-    .promise-badge .badge-icon { font-size: 2rem; }
-    .promise-badge-text { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
-    .promise-badge-text strong { display: block; color: var(--gold); font-size: 1rem; }
 
-    /* ─── Footer ─────────────────────────────────────────────────────────── */
-    footer {
-      position: relative;
-      z-index: 1;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      padding: 2.5rem clamp(1rem, 5vw, 6rem);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
+    .btn:hover {
+      opacity: 0.9;
     }
-    .footer-brand {
-      font-size: 1.3rem;
-      font-weight: 900;
-      background: linear-gradient(90deg, var(--gold), var(--purple-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+
+    /* Quote Box */
+    #quote-box {
+      font-style: italic;
+      color: var(--text);
+      min-height: 60px;
+      padding: 0.8rem;
+      background-color: var(--bg);
+      border-left: 4px solid var(--gold);
+      border-radius: 4px;
     }
-    .footer-note {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-    .footer-stats {
-      display: flex;
-      gap: 1.5rem;
-    }
-    .footer-stat { text-align: center; }
-    .footer-stat-num {
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: var(--gold);
+
+    /* Trivia Options */
+    .trivia-btn {
       display: block;
+      width: 100%;
+      text-align: left;
+      background-color: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.6rem;
+      margin-top: 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
     }
-    .footer-stat-label {
-      font-size: 0.7rem;
+
+    .trivia-btn:hover:not(:disabled) {
+      border-color: var(--gold);
+    }
+
+    .trivia-btn.correct {
+      background-color: #2e7d32;
+      color: #ffffff;
+    }
+
+    .trivia-btn.wrong {
+      background-color: #c62828;
+      color: #ffffff;
+    }
+
+    #feedback {
+      margin-top: 0.8rem;
+      font-weight: bold;
+      min-height: 24px;
+    }
+
+    /* =========================================================
+       8. FOOTER
+       ========================================================= */
+    footer {
+      background-color: var(--card-bg);
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    /* ─── Reveal animation ───────────────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      nav { justify-content: space-between; }
+      font-size: 0.9rem;
+      margin-top: 3rem;
     }
   </style>
 </head>
 <body>
 
-<!-- Floating particles -->
-<div id="particles"></div>
-
-<!-- ─── Navigation ─────────────────────────────────────────────────────────── -->
-<nav>
-  <a class="nav-brand" href="#hero" aria-label="LeBron James Fan Page Home">
-    <span class="nav-crown">👑</span>
-    <span class="nav-logo-text">KING JAMES</span>
-  </a>
-
-  <ul class="nav-links" role="list">
-    <li><a href="#bio">Biography</a></li>
-    <li><a href="#facts">Fast Facts</a></li>
-    <li><a href="#interactive">Interactive</a></li>
-    <li><a href="#philanthropy">Legacy</a></li>
-  </ul>
-
-  <button id="theme-toggle" aria-label="Toggle light/dark theme">
-    <span id="theme-icon">☀️</span>
-    <span id="theme-label">Light</span>
-  </button>
-</nav>
-
-<!-- ─── Hero ───────────────────────────────────────────────────────────────── -->
-<section id="hero" aria-label="LeBron James hero banner">
-  <div class="hero-mesh"></div>
-  <div class="hero-bg"></div>
-
-  <div class="hero-image-wrap">
-    <img
-      id="lebron-hero"
-      src="img/images.jpg"
-      alt="LeBron James in Lakers #6 jersey driving with the basketball"
-      loading="eager"
-      onerror="this.classList.add('error')"
-    />
-    <div class="hero-img-placeholder" aria-hidden="true">🏀</div>
-  </div>
-
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="badge-dot" aria-hidden="true"></span>
-      Los Angeles Lakers · #23
+  <!-- Navigation -->
+  <nav>
+    <a href="#hero" class="nav-logo">👑 KING JAMES</a>
+    <div class="nav-links">
+      <a href="#bio">Biography</a>
+      <a href="#facts">Facts</a>
+      <a href="#interactive">Interactive</a>
     </div>
+    <button id="theme-toggle">☀️ Light</button>
+  </nav>
 
-    <h1 class="hero-name">
-      <span class="king">Le</span>Bron<br>
-      <span class="king">James</span>
-    </h1>
-
-    <p class="hero-sub">The King · GOAT · Chosen One</p>
-
-    <div class="hero-milestones" role="list" aria-label="Career milestones">
-      <div class="milestone-chip" role="listitem"><span>🏆</span>4× NBA Champion</div>
-      <div class="milestone-chip" role="listitem"><span>🥇</span>All-Time Scoring Leader</div>
-      <div class="milestone-chip" role="listitem"><span>🏅</span>4× Finals MVP</div>
-      <div class="milestone-chip" role="listitem"><span>⭐</span>21× All-Star</div>
-      <div class="milestone-chip" role="listitem"><span>🦅</span>4× League MVP</div>
-      <div class="milestone-chip" role="listitem"><span>🎓</span>I PROMISE School Founder</div>
-    </div>
-
-    <a href="#bio" class="hero-cta" aria-label="Explore LeBron James career">
-      Explore His Story <span aria-hidden="true">→</span>
-    </a>
-  </div>
-
-  <div class="scroll-hint" aria-hidden="true">
-    <span>Scroll</span>
-    <span class="scroll-arrow">↓</span>
-  </div>
-</section>
-
-<!-- ─── Biography ──────────────────────────────────────────────────────────── -->
-<section id="bio" aria-labelledby="bio-heading">
-  <div class="bio-grid">
-    <div class="bio-text reveal">
-      <span class="section-label">Biography</span>
-      <h2 id="bio-heading" class="section-title">From Akron to<br><span class="accent">Greatness</span></h2>
-      <div class="section-divider" aria-hidden="true"></div>
-
-      <p>
-        LeBron Raymone James Sr. was born on December 30, 1984, in Akron, Ohio.
-        Raised in challenging circumstances, his extraordinary basketball talent was evident from
-        an early age — earning him the nickname <strong>"The Chosen One"</strong> from Sports
-        Illustrated before he even played a single NBA game.
-      </p>
-      <p>
-        Selected first overall by the Cleveland Cavaliers in the 2003 NBA Draft, LeBron
-        immediately transformed the franchise and NBA's global profile. His career has spanned
-        four teams — Cleveland, Miami, Cleveland again, and the Los Angeles Lakers — winning a
-        <strong>2020 NBA title</strong> with the Lakers in the pandemic bubble.
-      </p>
-      <p>
-        On February 7, 2023, LeBron surpassed Kareem Abdul-Jabbar to become the
-        <strong>NBA's All-Time Scoring Leader</strong> with 38,388+ career points. He remains
-        the only player in history to accumulate 40,000+ points, 10,000+ rebounds, 10,000+
-        assists, and 2,000+ steals — a statistical titan across two full decades.
-      </p>
-
-      <div class="bio-highlight">
-        "I'm going to use all my resources — being famous, being successful — to make sure I
-        plant seeds for the next generation to come." — LeBron James
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="hero-text">
+      <h1>LeBron James</h1>
+      <p class="hero-sub">The King · 4× NBA Champion · All-Time Scoring Leader</p>
+      <p>Widely regarded as one of the greatest basketball players in history, dominating the NBA across three decades.</p>
+      
+      <div class="badges">
+        <span class="badge">🏆 4× NBA Champion</span>
+        <span class="badge">🥇 40K+ Points</span>
+        <span class="badge">⭐ 21× All-Star</span>
+        <span class="badge">🏅 4× MVP</span>
       </div>
     </div>
 
-    <div class="bio-image-card reveal">
-      <img
-        src="img/images (1).jpg"
-        alt="LeBron James in Lakers #23 jersey, arms spread wide, celebrating"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      />
-      <p class="bio-img-label">LeBron James · Los Angeles Lakers</p>
+    <div class="hero-image">
+      <img src="img/images.jpg" alt="LeBron James Lakers" />
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── Fast Facts ─────────────────────────────────────────────────────────── -->
-<section id="facts" aria-labelledby="facts-heading">
-  <div class="reveal">
-    <span class="section-label">By The Numbers</span>
-    <h2 id="facts-heading" class="section-title">Fast <span class="accent">Facts</span></h2>
-    <div class="section-divider" aria-hidden="true"></div>
-  </div>
-
-  <div class="facts-grid">
-    <article class="fact-card reveal">
-      <span class="fact-icon" aria-hidden="true">📊</span>
-      <div class="fact-value">40,000+</div>
-      <div class="fact-label">Career Points</div>
-      <p class="fact-desc">NBA's All-Time Scoring Leader, surpassed Kareem in 2023</p>
-    </article>
-
-    <article class="fact-card reveal">
-      <span class="fact-icon" aria-hidden="true">🏆</span>
-      <div class="fact-value">4×</div>
-      <div class="fact-label">NBA Champion</div>
-      <p class="fact-desc">2012, 2013 (MIA) · 2016 (CLE) · 2020 (LAL)</p>
-    </article>
-
-    <article class="fact-card reveal">
-      <span class="fact-icon" aria-hidden="true">⭐</span>
-      <div class="fact-value">21×</div>
-      <div class="fact-label">NBA All-Star</div>
-      <p class="fact-desc">Most All-Star selections by any player in NBA history</p>
-    </article>
-
-    <article class="fact-card reveal">
-      <span class="fact-icon" aria-hidden="true">📅</span>
-      <div class="fact-value">22+</div>
-      <div class="fact-label">NBA Seasons</div>
-      <p class="fact-desc">Entered the league in 2003 — one of the longest elite careers ever</p>
-    </article>
-
-    <article class="fact-card reveal">
-      <span class="fact-icon" aria-hidden="true">🎓</span>
-      <div class="fact-value">1,000+</div>
-      <div class="fact-label">Students Helped</div>
-      <p class="fact-desc">I PROMISE School in Akron, OH — fully funded by LeBron's foundation</p>
-    </article>
-  </div>
-</section>
-
-<!-- ─── Interactive ─────────────────────────────────────────────────────────── -->
-<section id="interactive" aria-labelledby="interactive-heading">
-  <div class="reveal">
-    <span class="section-label">Fan Experience</span>
-    <h2 id="interactive-heading" class="section-title">Get <span class="accent">Interactive</span></h2>
-    <div class="section-divider" aria-hidden="true"></div>
-  </div>
-
-  <div class="interactive-grid">
-
-    <!-- Quote Generator -->
-    <div class="int-card reveal">
-      <h3 class="int-card-title">💬 LeBron Quotes</h3>
-      <p class="int-card-sub">Hit the button for a fresh dose of King James wisdom.</p>
-
-      <div id="quote-display" role="blockquote" aria-live="polite">
-        "I like to lead by example, not by talking."
+  <!-- Biography Section -->
+  <section id="bio">
+    <h2>Biography & Legacy</h2>
+    <div class="bio-container">
+      <div class="bio-text">
+        <p>Born on December 30, 1984, in Akron, Ohio, LeBron James entered the NBA directly from high school as the #1 overall draft pick in 2003 by the Cleveland Cavaliers.</p>
+        <p>Over his legendary career with Cleveland, Miami, and the Los Angeles Lakers, he has won 4 NBA championships and broke Kareem Abdul-Jabbar's all-time scoring record in 2023.</p>
+        <p><strong>Off the Court:</strong> In 2018, he founded the <em>I PROMISE School</em> in Akron, providing free education, meals, and guaranteed college scholarships for at-risk students.</p>
       </div>
 
-      <button class="btn btn-gold" id="quote-btn" aria-label="Generate a new LeBron James quote">
-        ✨ New Quote
-      </button>
-    </div>
-
-    <!-- Trivia -->
-    <div class="int-card reveal">
-      <h3 class="int-card-title">🧠 LeBron Trivia</h3>
-      <p class="int-card-sub">Test your knowledge — pick an answer below!</p>
-
-      <p class="trivia-question" id="trivia-q" aria-live="polite"></p>
-
-      <div class="trivia-options" id="trivia-opts" role="group" aria-label="Trivia answer options"></div>
-
-      <div id="trivia-feedback" aria-live="assertive"></div>
-
-      <button class="btn btn-purple" id="trivia-next" aria-label="Load next trivia question">
-        🔄 Next Question
-      </button>
-    </div>
-
-  </div>
-</section>
-
-<!-- ─── Philanthropy ────────────────────────────────────────────────────────── -->
-<section id="philanthropy" aria-labelledby="philan-heading">
-  <div class="philan-content reveal">
-    <span class="section-label" style="color:var(--gold-light);">Beyond Basketball</span>
-    <h2 id="philan-heading" class="section-title" style="color:#fff;">
-      A Legacy Off the <span style="color:var(--gold);">Court</span>
-    </h2>
-    <div class="section-divider" aria-hidden="true"></div>
-
-    <p>
-      LeBron's impact extends far beyond basketball records. Through the
-      <strong style="color:var(--gold);">LeBron James Family Foundation</strong>, he has
-      committed over $100 million to support at-risk youth in his hometown of Akron, Ohio.
-    </p>
-    <p>
-      The <strong style="color:var(--gold);">I PROMISE School</strong>, opened in 2018 in
-      partnership with Akron Public Schools, provides wraparound support for at-risk students —
-      including free tuition, meals, bikes and helmets, and a guaranteed scholarship to the
-      University of Akron for all graduates.
-    </p>
-    <p>
-      LeBron is also a vocal advocate for social justice, civil rights, and voter empowerment.
-      In 2020 he co-founded <strong style="color:var(--gold);">More Than a Vote</strong>, a
-      coalition of Black athletes and artists fighting voter suppression and protecting the
-      Black vote in America.
-    </p>
-
-    <div class="promise-badge" role="img" aria-label="I PROMISE School impact badge">
-      <span class="badge-icon">🏫</span>
-      <div class="promise-badge-text">
-        <strong>I PROMISE School — Akron, OH</strong>
-        Opened August 2018 · Fully funded by the LeBron James Family Foundation ·
-        Over $100 million committed to Akron youth
+      <div class="bio-image">
+        <img src="img/images (1).jpg" alt="LeBron James Celebration" />
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── Footer ─────────────────────────────────────────────────────────────── -->
-<footer>
-  <div>
-    <div class="footer-brand">👑 King James Fan Page</div>
-    <p class="footer-note">A tribute to the greatest basketball player of all time.</p>
-    <p class="footer-note" style="margin-top:0.3rem;">Fan-made · Not affiliated with LeBron James or the NBA.</p>
-  </div>
-
-  <div class="footer-stats" aria-label="Career quick stats">
-    <div class="footer-stat">
-      <span class="footer-stat-num">40K+</span>
-      <span class="footer-stat-label">Points</span>
+  <!-- Fast Facts Section -->
+  <section id="facts">
+    <h2>Fast Facts</h2>
+    <div class="facts-grid">
+      <div class="fact-card">
+        <div class="fact-number">40,000+</div>
+        <div class="fact-label">Career Points</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-number">4</div>
+        <div class="fact-label">NBA Championships</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-number">21×</div>
+        <div class="fact-label">All-Star Selections</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-number">2003</div>
+        <div class="fact-label">Rookie Year</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-number">1,000+</div>
+        <div class="fact-label">Students at I PROMISE</div>
+      </div>
     </div>
-    <div class="footer-stat">
-      <span class="footer-stat-num">4×</span>
-      <span class="footer-stat-label">Rings</span>
+  </section>
+
+  <!-- Interactive Section -->
+  <section id="interactive">
+    <h2>Interactive Zone</h2>
+    <div class="interactive-grid">
+
+      <!-- Quote Generator -->
+      <div class="card">
+        <h3>💬 LeBron Quotes</h3>
+        <div id="quote-box">"I like to lead by example, not by talking."</div>
+        <button class="btn" id="quote-btn">Next Quote</button>
+      </div>
+
+      <!-- Trivia Quiz -->
+      <div class="card">
+        <h3>🧠 Trivia Challenge</h3>
+        <p id="trivia-q">Which team drafted LeBron James in 2003?</p>
+        <div id="trivia-options">
+          <button class="trivia-btn" onclick="checkAnswer(this, false)">Miami Heat</button>
+          <button class="trivia-btn" onclick="checkAnswer(this, false)">Los Angeles Lakers</button>
+          <button class="trivia-btn" onclick="checkAnswer(this, true)">Cleveland Cavaliers</button>
+          <button class="trivia-btn" onclick="checkAnswer(this, false)">Chicago Bulls</button>
+        </div>
+        <div id="feedback"></div>
+      </div>
+
     </div>
-    <div class="footer-stat">
-      <span class="footer-stat-num">21×</span>
-      <span class="footer-stat-label">All-Star</span>
-    </div>
-    <div class="footer-stat">
-      <span class="footer-stat-num">#23</span>
-      <span class="footer-stat-label">The King</span>
-    </div>
-  </div>
-</footer>
+  </section>
 
-<!-- ─── JavaScript ──────────────────────────────────────────────────────────── -->
-<script>
-  /* ── Particles ─────────────────────────────────────────────────────────── */
-  (function createParticles() {
-    var container = document.getElementById('particles');
-    var colors = ['#FDB927', '#552583', '#7B3FC4', '#FFD77F', '#2C1060'];
-    for (var i = 0; i < 28; i++) {
-      var p = document.createElement('div');
-      p.className = 'particle';
-      var size = Math.random() * 8 + 3;
-      p.style.cssText = [
-        'width:' + size + 'px',
-        'height:' + size + 'px',
-        'background:' + colors[Math.floor(Math.random() * colors.length)],
-        'left:' + Math.random() * 100 + '%',
-        'animation-duration:' + (Math.random() * 18 + 12) + 's',
-        'animation-delay:' + Math.random() * 10 + 's'
-      ].join(';');
-      container.appendChild(p);
-    }
-  })();
+  <!-- Footer -->
+  <footer>
+    <p>👑 LeBron James Fan Page · Built with Vanilla HTML, CSS & JavaScript</p>
+  </footer>
 
-  /* ── Theme Toggle ──────────────────────────────────────────────────────── */
-  var html        = document.documentElement;
-  var themeToggle = document.getElementById('theme-toggle');
-  var themeIcon   = document.getElementById('theme-icon');
-  var themeLabel  = document.getElementById('theme-label');
-  var isDark      = true;
+  <!-- JavaScript -->
+  <script>
+    // 1. Light / Dark Theme Toggle
+    const themeBtn = document.getElementById('theme-toggle');
+    const htmlTag = document.documentElement;
 
-  themeToggle.addEventListener('click', function () {
-    isDark = !isDark;
-    html.setAttribute('data-theme', isDark ? 'dark' : 'light');
-    themeIcon.textContent  = isDark ? '☀️' : '🌙';
-    themeLabel.textContent = isDark ? 'Light' : 'Dark';
-  });
-
-  /* ── Quote Generator ───────────────────────────────────────────────────── */
-  var quotes = [
-    "I like to lead by example, not by talking.",
-    "I'm going to use all my resources — being famous, being successful — to make sure I plant seeds for the next generation.",
-    "You have to be able to accept failure to get better.",
-    "Every day is a new opportunity. You can build on yesterday's success or put its failures behind and start over again.",
-    "I always say decisions I make, I live with them. There are always ways you can correct them or ways you can take them the right way.",
-    "I treated it like every day was my last day with a basketball.",
-    "Greatness is defined by how much you want to put into what you do.",
-    "Ask me to play. I'll play. Ask me to shoot. I'll shoot. Ask me to pass. I'll pass. Ask me to steal, block out, sacrifice, lead, dominate — anything.",
-    "Don't be afraid of failure. This is the way to succeed.",
-    "I am who I am and what I am, and I don't change for nobody.",
-    "I have short goals — to get better every day, to help my teammates every day — that's what I'm going to do.",
-    "Once you become a professional athlete or once you do anything well, then you're automatically a role model."
-  ];
-
-  var quoteDisplay = document.getElementById('quote-display');
-  var quoteBtn     = document.getElementById('quote-btn');
-  var lastQuoteIdx = -1;
-
-  function getRandomQuote() {
-    var idx;
-    do { idx = Math.floor(Math.random() * quotes.length); } while (idx === lastQuoteIdx);
-    lastQuoteIdx = idx;
-    return quotes[idx];
-  }
-
-  quoteBtn.addEventListener('click', function () {
-    quoteDisplay.classList.add('fading');
-    setTimeout(function () {
-      quoteDisplay.textContent = '\u201C' + getRandomQuote() + '\u201D';
-      quoteDisplay.classList.remove('fading');
-    }, 350);
-  });
-
-  /* ── Trivia ─────────────────────────────────────────────────────────────── */
-  var triviaData = [
-    {
-      q: "In what year was LeBron James born?",
-      opts: ["1982", "1984", "1986", "1988"],
-      correct: 1,
-      explanation: "LeBron was born on December 30, 1984, in Akron, Ohio."
-    },
-    {
-      q: "Which team drafted LeBron James first overall in the 2003 NBA Draft?",
-      opts: ["Miami Heat", "Los Angeles Lakers", "Cleveland Cavaliers", "Chicago Bulls"],
-      correct: 2,
-      explanation: "The Cleveland Cavaliers picked LeBron #1 overall in 2003."
-    },
-    {
-      q: "Whose all-time scoring record did LeBron break in February 2023?",
-      opts: ["Michael Jordan", "Kobe Bryant", "Wilt Chamberlain", "Kareem Abdul-Jabbar"],
-      correct: 3,
-      explanation: "LeBron surpassed Kareem Abdul-Jabbar's record of 38,387 points."
-    },
-    {
-      q: "What is the name of the school LeBron James founded in Akron, Ohio?",
-      opts: ["Chosen One Academy", "LBJ STEM School", "I PROMISE School", "King James Academy"],
-      correct: 2,
-      explanation: "The I PROMISE School opened in 2018 and is fully supported by LeBron's foundation."
-    },
-    {
-      q: "How many NBA Championships has LeBron James won?",
-      opts: ["2", "3", "4", "5"],
-      correct: 2,
-      explanation: "LeBron won in 2012, 2013, 2016, and 2020 — four titles with three different franchises."
-    },
-    {
-      q: "In 2016, LeBron's Cavaliers came back from 3-1 down against which team to win the Finals?",
-      opts: ["San Antonio Spurs", "Oklahoma City Thunder", "Golden State Warriors", "Boston Celtics"],
-      correct: 2,
-      explanation: "The 2016 Cavaliers made history with the greatest Finals comeback against the Golden State Warriors."
-    },
-    {
-      q: "Which jersey number did LeBron wear during most of his Cleveland career?",
-      opts: ["#6", "#23", "#1", "#8"],
-      correct: 1,
-      explanation: "LeBron wore #23 for the Cleveland Cavaliers (both stints)."
-    },
-    {
-      q: "Which organization did LeBron co-found in 2020 to protect Black voting rights?",
-      opts: ["Vote Early", "More Than a Vote", "NBA Cares", "Akron Forward"],
-      correct: 1,
-      explanation: "'More Than a Vote' was co-founded by LeBron and other Black athletes ahead of the 2020 election."
-    }
-  ];
-
-  var triviaQ        = document.getElementById('trivia-q');
-  var triviaOpts     = document.getElementById('trivia-opts');
-  var triviaFeedback = document.getElementById('trivia-feedback');
-  var triviaNext     = document.getElementById('trivia-next');
-  var currentTrivia  = -1;
-  var triviaAnswered = false;
-
-  function loadTrivia() {
-    var idx;
-    do { idx = Math.floor(Math.random() * triviaData.length); } while (idx === currentTrivia);
-    currentTrivia  = idx;
-    triviaAnswered = false;
-
-    var q = triviaData[idx];
-    triviaQ.textContent      = q.q;
-    triviaFeedback.textContent = '';
-    triviaFeedback.className   = '';
-    triviaOpts.innerHTML       = '';
-
-    q.opts.forEach(function (opt, i) {
-      var btn = document.createElement('button');
-      btn.className  = 'trivia-opt';
-      btn.textContent = opt;
-      btn.setAttribute('aria-label', 'Answer: ' + opt);
-      (function (chosenIdx, chosenBtn) {
-        btn.addEventListener('click', function () {
-          answerTrivia(chosenIdx, q, chosenBtn);
-        });
-      })(i, btn);
-      triviaOpts.appendChild(btn);
-    });
-  }
-
-  function answerTrivia(chosen, q, chosenBtn) {
-    if (triviaAnswered) return;
-    triviaAnswered = true;
-
-    var allBtns = triviaOpts.querySelectorAll('.trivia-opt');
-    allBtns.forEach(function (b, i) {
-      b.disabled = true;
-      if (i === q.correct) {
-        b.classList.add('correct');
-      } else if (b === chosenBtn) {
-        b.classList.add('wrong');
+    themeBtn.addEventListener('click', function() {
+      const currentTheme = htmlTag.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        htmlTag.setAttribute('data-theme', 'light');
+        themeBtn.textContent = '🌙 Dark';
+      } else {
+        htmlTag.setAttribute('data-theme', 'dark');
+        themeBtn.textContent = '☀️ Light';
       }
     });
 
-    if (chosen === q.correct) {
-      triviaFeedback.textContent = '✅ Correct! ' + q.explanation;
-      triviaFeedback.className   = 'feedback-correct';
-    } else {
-      triviaFeedback.textContent = '❌ Not quite. ' + q.explanation;
-      triviaFeedback.className   = 'feedback-wrong';
+    // 2. Random Quote Generator
+    const quotes = [
+      "I like to lead by example, not by talking.",
+      "You have to be able to accept failure to get better.",
+      "Every day is a new opportunity to get better.",
+      "Greatness is defined by how much you want to put into what you do.",
+      "Don't be afraid of failure. This is the way to succeed."
+    ];
+
+    const quoteBox = document.getElementById('quote-box');
+    const quoteBtn = document.getElementById('quote-btn');
+
+    quoteBtn.addEventListener('click', function() {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      quoteBox.textContent = `"${quotes[randomIndex]}"`;
+    });
+
+    // 3. Trivia Question Checker
+    function checkAnswer(button, isCorrect) {
+      const allButtons = document.querySelectorAll('.trivia-btn');
+      const feedback = document.getElementById('feedback');
+
+      // Disable buttons after answering
+      allButtons.forEach(btn => btn.disabled = true);
+
+      if (isCorrect) {
+        button.classList.add('correct');
+        feedback.textContent = '✅ Correct! Cleveland drafted him #1 overall in 2003.';
+        feedback.style.color = '#2e7d32';
+      } else {
+        button.classList.add('wrong');
+        feedback.textContent = '❌ Incorrect. The correct answer was Cleveland Cavaliers.';
+        feedback.style.color = '#c62828';
+      }
     }
-  }
+  </script>
 
-  triviaNext.addEventListener('click', loadTrivia);
-  loadTrivia();
-
-  /* ── Scroll Reveal ──────────────────────────────────────────────────────── */
-  var revealEls = document.querySelectorAll('.reveal');
-  var revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  revealEls.forEach(function (el) { revealObserver.observe(el); });
-
-  /* ── Active Nav Link ────────────────────────────────────────────────────── */
-  var sections = document.querySelectorAll('section[id]');
-  var navLinks = document.querySelectorAll('.nav-links a');
-
-  var navObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        navLinks.forEach(function (a) {
-          a.style.color = '';
-          if (a.getAttribute('href') === '#' + entry.target.id) {
-            a.style.color = 'var(--gold)';
-          }
-        });
-      }
-    });
-  }, { threshold: 0.4 });
-
-  sections.forEach(function (s) { navObserver.observe(s); });
-</script>
 </body>
 </html>
